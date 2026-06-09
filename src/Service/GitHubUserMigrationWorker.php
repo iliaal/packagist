@@ -320,7 +320,8 @@ class GitHubUserMigrationWorker
         }
 
         if ($e->getCode() === 403) {
-            return $message;
+            // rendered with |raw on the profile page, so escape the upstream-controlled text
+            return htmlspecialchars((string) $message, \ENT_QUOTES);
         }
 
         if ($e->getCode() === 401 && str_contains($message, 'Bad credentials')) {
